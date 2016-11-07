@@ -23,6 +23,7 @@ public class CalculatorForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Expression expr = new Expression(InputParsing.removeWhitespaces(textField1.getText()));
                 label1.setText("Result: " + String.valueOf(expr.getValue()));
+                System.out.println(InputParsing.containsFunctions("123sin123"));
             }
         });
         setVisible(true);

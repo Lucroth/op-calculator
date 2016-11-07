@@ -3,6 +3,7 @@ package inputParsing;
 import java.util.ArrayList;
 import functionStructure.Operation;
 import functionStructure.Expression;
+import functionStructure.Function;
 import functionStructure.OperationType;
 
 /**
@@ -24,13 +25,19 @@ public class InputParsing {
                 counter--;
             }
         }
-        return input.length() - 1;
+        return input.length();
     }
 
     private static boolean containsOperators(String input) {
         for(int i = 1; i < input.length(); i++)
             if(isOperator(input.charAt(i)))
                 return true;
+        return false;
+    }
+
+    private static boolean isFunction(String input) {
+        if(input.equals("sin") || input.equals("cos") || input.equals("tan"))
+            return true;
         return false;
     }
 
@@ -54,11 +61,18 @@ public class InputParsing {
         return operationList;
     }
 
+    public static boolean containsFunctions(String input) {
+        for(int i = 0; i < input.length() - 3; i++) {
+                return true;
+        }
+        return false;
+    }
+
     public static ArrayList<Expression> detectExpressions(String input) {
         ArrayList<Expression> expressionList = new ArrayList<>();
         int endIndex;
 
-        if(!containsOperators(input))
+        if(!containsOperators(input) && !containsFunctions(input))
             return null;
         else {
             for (int i = 0; i < input.length(); i++) {
@@ -68,7 +82,14 @@ public class InputParsing {
                     i = endIndex;
                 } else {
                     for (int j = i; j < input.length(); j++) {
-                        if (InputParsing.isOperator(input.charAt(j))) {
+                        if(j == i + 3 && isFunction(input.substring(i, j))) {
+                            if(input.charAt(j) == '(') {
+                                endIndex = findCorrespondingBracket(input, j + 1) + 1;
+                                expressionList.add(new Function(input.substring(i, j), input.substring(j + 1, endIndex - 1)));
+                                i = endIndex;
+                                break;
+                            }
+                        } else if (InputParsing.isOperator(input.charAt(j))) {
                             expressionList.add(new Expression(input.substring(i, j)));
                             i = j;
                             break;

@@ -7,9 +7,9 @@ import java.util.ArrayList;
  * Created by Maciej on 2016-11-01.
  */
 public class Expression implements IEvaluable {
-    private String input;
-    private ArrayList<Expression> expressions;
-    private ArrayList<Operation> operations;
+    protected String input;
+    protected ArrayList<Expression> expressions;
+    protected ArrayList<Operation> operations;
 
     public Expression(String input) {
         this.input = input;
@@ -17,7 +17,7 @@ public class Expression implements IEvaluable {
         this.operations = InputParsing.getOperationListExpr(input, expressions);
     }
 
-    private double Calculate(ArrayList<Operation> operations) {
+    protected double Calculate(ArrayList<Operation> operations) {
         boolean operationDone = false;
 
         while(operations.size() > 1) {
@@ -47,13 +47,15 @@ public class Expression implements IEvaluable {
     }
 
     private void preformCalculations(ArrayList<Operation> operations, int i) {
+        Expression expr = new Expression(Double.toString(operations.get(i).getValue()));
+
         if (i == 0) {
-            operations.get(i + 1).setLeftOperator(new Expression(Double.toString(operations.get(i).getValue())));
+            operations.get(i + 1).setLeftOperator(expr);
         } else if (i > 0 && i < operations.size() - 1) {
-            operations.get(i - 1).setRightOperator(new Expression(Double.toString(operations.get(i).getValue())));
-            operations.get(i + 1).setLeftOperator(new Expression(Double.toString(operations.get(i).getValue())));
+            operations.get(i - 1).setRightOperator(expr);
+            operations.get(i + 1).setLeftOperator(expr);
         } else if (i == operations.size() - 1) {
-            operations.get(i - 1).setRightOperator(new Expression(Double.toString(operations.get(i).getValue())));
+            operations.get(i - 1).setRightOperator(expr);
         }
     }
 
