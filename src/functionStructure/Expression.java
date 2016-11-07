@@ -47,13 +47,15 @@ public class Expression implements IEvaluable {
     }
 
     private void preformCalculations(ArrayList<Operation> operations, int i) {
+        Expression expr = new Expression(Double.toString(operations.get(i).getValue()));
+
         if (i == 0) {
-            operations.get(i + 1).setLeftOperator(new Expression(Double.toString(operations.get(i).getValue())));
+            operations.get(i + 1).setLeftOperator(expr);
         } else if (i > 0 && i < operations.size() - 1) {
-            operations.get(i - 1).setRightOperator(new Expression(Double.toString(operations.get(i).getValue())));
-            operations.get(i + 1).setLeftOperator(new Expression(Double.toString(operations.get(i).getValue())));
+            operations.get(i - 1).setRightOperator(expr);
+            operations.get(i + 1).setLeftOperator(expr);
         } else if (i == operations.size() - 1) {
-            operations.get(i - 1).setRightOperator(new Expression(Double.toString(operations.get(i).getValue())));
+            operations.get(i - 1).setRightOperator(expr);
         }
     }
 
