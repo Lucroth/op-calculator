@@ -1,7 +1,6 @@
 package functionStructure;
 
 import inputParsing.InputParsing;
-import mainMechanism.mainMechanism;
 
 import java.util.ArrayList;
 /**
@@ -13,19 +12,61 @@ public class Expression implements IEvaluable {
     private ArrayList<Operation> operations;
 
     public Expression(String input) {
-        this.input = InputParsing.cropExpression(input);
+        this.input = input;
         this.expressions = InputParsing.detectExpressions(input);
-        this.operations = InputParsing.getOperationListExpr(input);
+        this.operations = InputParsing.getOperationListExpr(input, expressions);
+    }
+
+    private double Calculate(ArrayList<Operation> operations) {
+        boolean operationDone = false;
+
+        while(operations.size() > 1) {
+
+            for(int i = 0; i < operations.size(); i++) {
+                operationDone = false;
+                if ((operations.get(i).getOperationType() == OperationType.Multiplication) || (operations.get(i).getOperationType() == OperationType.Division)) {
+                    preformCalculations(operations, i);
+                    operations.remove(i);
+                    operationDone = true;
+                    break;
+                }
+            }
+
+            if(!operationDone) {
+                for(int i = 0; i < operations.size(); i++) {
+                    if ((operations.get(i).getOperationType() == OperationType.Addition) || (operations.get(i).getOperationType() == OperationType.Subtraction)) {
+                        preformCalculations(operations, i);
+                        operations.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return operations.get(0).getValue();
+    }
+
+    private void preformCalculations(ArrayList<Operation> operations, int i) {
+        if (i == 0) {
+            operations.get(i + 1).setLeftOperator(new Expression(Double.toString(operations.get(i).getValue())));
+        } else if (i > 0 && i < operations.size() - 1) {
+            operations.get(i - 1).setRightOperator(new Expression(Double.toString(operations.get(i).getValue())));
+            operations.get(i + 1).setLeftOperator(new Expression(Double.toString(operations.get(i).getValue())));
+        } else if (i == operations.size() - 1) {
+            operations.get(i - 1).setRightOperator(new Expression(Double.toString(operations.get(i).getValue())));
+        }
+    }
+
+    public String toString() {
+        return input;
     }
 
     public double getValue() {
         if(expressions == null)
             return Double.parseDouble(input);
+        else if (expressions.size() == 1)
+            return expressions.get(0).getValue();
         else
-            return mainMechanism.Calculate(operations);
-    }
-
-    public String toString() {
-        return input;
+            return Calculate(operations);
     }
 }

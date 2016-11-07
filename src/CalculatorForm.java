@@ -1,5 +1,4 @@
 import inputParsing.InputParsing;
-import mainMechanism.mainMechanism;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,7 +21,8 @@ public class CalculatorForm extends JFrame {
         calculateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                label1.setText(String.valueOf(mainMechanism.Calculate(InputParsing.getOperationListExpr(InputParsing.cropExpression(InputParsing.removeWhitespaces(textField1.getText()))))));
+                Expression expr = new Expression(InputParsing.removeWhitespaces(textField1.getText()));
+                label1.setText("Result: " + String.valueOf(expr.getValue()));
             }
         });
         setVisible(true);
