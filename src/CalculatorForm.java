@@ -13,7 +13,7 @@ public class CalculatorForm extends JFrame {
     private JPanel rootPanel;
     private JTextField textField1;
     private JLabel label1;
-    public CalculatorForm() {
+    protected CalculatorForm() {
         super("Calculator");
         setContentPane(rootPanel);
         pack();
@@ -21,7 +21,7 @@ public class CalculatorForm extends JFrame {
         calculateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                label1.setText(String.valueOf(mainMechanism.Calculate(InputParsing.getOperationList(textField1.getText()))));
+                label1.setText(String.valueOf(mainMechanism.Calculate(InputParsing.getOperationListExpr(InputParsing.removeWhitespaces(textField1.getText())))));
             }
         });
         setVisible(true);
