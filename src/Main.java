@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         CalculatorForm myForm = new CalculatorForm();
         // Use "pi" as the default query, or caller can supply it as the lone command-line argument.
-        String input = "xd";
+        /*String input = "xd";
         if (args.length > 0)
             input = args[0];
 
@@ -72,7 +72,7 @@ public class Main {
             }
         } catch (WAException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
 

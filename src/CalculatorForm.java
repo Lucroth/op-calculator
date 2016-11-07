@@ -4,6 +4,7 @@ import mainMechanism.mainMechanism;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import functionStructure.Expression;
 
 /**
  * Created by Lucroth on 2016-11-03.
@@ -21,7 +22,7 @@ public class CalculatorForm extends JFrame {
         calculateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                label1.setText(String.valueOf(mainMechanism.Calculate(InputParsing.getOperationListExpr(InputParsing.removeWhitespaces(textField1.getText())))));
+                label1.setText(String.valueOf(mainMechanism.Calculate(InputParsing.getOperationListExpr(InputParsing.cropExpression(InputParsing.removeWhitespaces(textField1.getText()))))));
             }
         });
         setVisible(true);
