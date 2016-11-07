@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import functionStructure.Expression;
+import wolframAlpha.WolframConnection;
 
 /**
  * Created by Lucroth on 2016-11-03.
@@ -23,6 +24,9 @@ public class CalculatorForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Expression expr = new Expression(InputParsing.removeWhitespaces(textField1.getText()));
                 label1.setText("Result: " + String.valueOf(expr.getValue()));
+
+                //wolfram
+                //label1.setText(WolframConnection.queryWolfram(textField1.getText()));
             }
         });
         setVisible(true);
