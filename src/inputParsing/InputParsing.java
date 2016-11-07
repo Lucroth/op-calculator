@@ -63,7 +63,6 @@ public class InputParsing {
 
     public static boolean containsFunctions(String input) {
         for(int i = 0; i < input.length() - 3; i++) {
-            if(isFunction(Character.toString(input.charAt(i)).concat(Character.toString(input.charAt(i + 1)).concat(Character.toString(input.charAt(i + 2))))))
                 return true;
         }
         return false;
