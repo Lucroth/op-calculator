@@ -28,7 +28,7 @@ public class InputParsing {
     }
 
     private static boolean containsOperators(String input) {
-        for(int i = 0; i < input.length(); i++)
+        for(int i = 1; i < input.length(); i++)
             if(isOperator(input.charAt(i)))
                 return true;
         return false;
