@@ -1,66 +1,49 @@
 package functionStructure;
 
+import inputParsing.InputParsing;
+
 /**
- * Created by Maciej on 2016-11-01.
+ * Created by Maciej on 2016-11-03.
  */
-public class Operation {
+public class Operation<T extends IEvaluable> implements IEvaluable {
     private char sign;
     private OperationType operation;
-    private Number leftNumber;
-    private Number rightNumber;
+    private T leftOperator;
+    private T rightOperator;
 
-    public Operation(char sign, Number leftNumber, Number rightNumber) {
-
+    public Operation(char sign, T leftOperator, T rightOperator) {
         this.sign = sign;
-        this.operation = setOperationType(sign);
-        this.leftNumber = leftNumber;
-        this.rightNumber = rightNumber;
-    }
-
-    private OperationType setOperationType(char input) {
-        if(input == '*')
-            return OperationType.Multiplication;
-        else if (input == '/')
-            return OperationType.Division;
-        else if(input == '+')
-            return OperationType.Addition;
-        else
-            return OperationType.Subtraction;
-    }
-
-    private double Evaluate() {
-        if(operation == OperationType.Multiplication)
-            return leftNumber.getValue() * rightNumber.getValue();
-        else if (operation == OperationType.Division)
-            return leftNumber.getValue() / rightNumber.getValue();
-        else if(operation == OperationType.Addition)
-            return leftNumber.getValue() + rightNumber.getValue();
-        else
-            return leftNumber.getValue() - rightNumber.getValue();
+        operation = InputParsing.setOperationType(sign);
+        this.leftOperator = leftOperator;
+        this.rightOperator = rightOperator;
     }
 
     public double getValue() {
-        return Evaluate();
+        switch(operation) {
+            case Multiplication:
+                return leftOperator.getValue() * rightOperator.getValue();
+            case Division:
+                return leftOperator.getValue() / rightOperator.getValue();
+            case Addition:
+                return leftOperator.getValue() + rightOperator.getValue();
+            case Subtraction:
+                return leftOperator.getValue() - rightOperator.getValue();
+            default:
+                return (Double) null;
+        }
+    }
+
+    public void setLeftOperator(T leftOperator) {
+        this.leftOperator = leftOperator;
+    }
+
+    public void setRightOperator(T rightOperator) {
+        this.rightOperator = rightOperator;
     }
 
     public OperationType getOperationType() { return operation; }
 
     public String toString() {
-        if(operation == OperationType.Multiplication)
-            return leftNumber.getValue() + " * " + rightNumber.getValue();
-        else if (operation == OperationType.Division)
-            return leftNumber.getValue() + " / " + rightNumber.getValue();
-        else if(operation == OperationType.Addition)
-            return leftNumber.getValue() + " + " + rightNumber.getValue();
-        else
-            return leftNumber.getValue() + " - " + rightNumber.getValue();
-    }
-
-    public void setRightNumber(Number number) {
-        this.rightNumber = number;
-    }
-
-    public void setLeftNumber(Number number) {
-        this.leftNumber = number;
+        return Double.toString(leftOperator.getValue()) + sign + Double.toString(rightOperator.getValue());
     }
 }
