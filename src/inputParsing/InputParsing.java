@@ -24,7 +24,7 @@ public class InputParsing {
                 counter--;
             }
         }
-        return input.length() - 1;
+        return input.length();
     }
 
     private static boolean containsOperators(String input) {
