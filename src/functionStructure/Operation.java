@@ -5,13 +5,13 @@ import inputParsing.InputParsing;
 /**
  * Created by Maciej on 2016-11-03.
  */
-public class Operation<T extends IEvaluable> implements IEvaluable {
+public class Operation<T extends IEvaluable, V extends IEvaluable> implements IEvaluable {
     private char sign;
     private OperationType operation;
     private T leftOperator;
-    private T rightOperator;
+    private V rightOperator;
 
-    public Operation(char sign, T leftOperator, T rightOperator) {
+    public Operation(char sign, T leftOperator, V rightOperator) {
         this.sign = sign;
         operation = InputParsing.setOperationType(sign);
         this.leftOperator = leftOperator;
@@ -37,7 +37,7 @@ public class Operation<T extends IEvaluable> implements IEvaluable {
         this.leftOperator = leftOperator;
     }
 
-    public void setRightOperator(T rightOperator) {
+    public void setRightOperator(V rightOperator) {
         this.rightOperator = rightOperator;
     }
 

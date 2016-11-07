@@ -7,9 +7,9 @@ import java.util.ArrayList;
  * Created by Maciej on 2016-11-01.
  */
 public class Expression implements IEvaluable {
-    private String input;
-    private ArrayList<Expression> expressions;
-    private ArrayList<Operation> operations;
+    protected String input;
+    protected ArrayList<Expression> expressions;
+    protected ArrayList<Operation> operations;
 
     public Expression(String input) {
         this.input = input;
@@ -17,7 +17,7 @@ public class Expression implements IEvaluable {
         this.operations = InputParsing.getOperationListExpr(input, expressions);
     }
 
-    private double Calculate(ArrayList<Operation> operations) {
+    protected double Calculate(ArrayList<Operation> operations) {
         boolean operationDone = false;
 
         while(operations.size() > 1) {
