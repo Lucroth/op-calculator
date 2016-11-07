@@ -13,7 +13,7 @@ public class InputParsing {
         return input.replaceAll("\\s+", "");
     }
 
-    private static int findCorrespondingBracket(String input, int index) {
+    public static int findCorrespondingBracket(String input, int index) {
         int counter = 0;
         for(int i = index + 1; i < input.length(); i++) {
             if(input.charAt(i) == '(')
@@ -38,25 +38,20 @@ public class InputParsing {
         return character == '+' || character == '-' || character == '*' || character == '/';
     }
 
-    public static ArrayList<Operation> getOperationListExpr(String input) {
+    public static ArrayList<Operation> getOperationListExpr(String input, ArrayList<Expression> expressionList) {
         ArrayList<Operation> operationList = new ArrayList<>();
-        ArrayList<Expression> expressionList = detectExpressions(input);
 
-        for(int i = 0; i < input.length(); i++) {
-            if(input.charAt(i) == '(')
-                i = findCorrespondingBracket(input, i);
-            else if(isOperator(input.charAt(i))) {
-                operationList.add(new Operation(input.charAt(i), expressionList.get(operationList.size()), expressionList.get(operationList.size() + 1)));
+        if(!(expressionList == null)) {
+            for (int i = 0; i < input.length(); i++) {
+                if (input.charAt(i) == '(')
+                    i = findCorrespondingBracket(input, i);
+                else if (isOperator(input.charAt(i))) {
+                    operationList.add(new Operation(input.charAt(i), expressionList.get(operationList.size()), expressionList.get(operationList.size() + 1)));
+                }
             }
         }
 
         return operationList;
-    }
-
-    public static String cropExpression(String input) {
-        while(input.charAt(0) == '(' && input.charAt(input.length() - 1) == ')')
-            input = input.substring(1, input.length() - 1);
-        return input;
     }
 
     public static ArrayList<Expression> detectExpressions(String input) {
