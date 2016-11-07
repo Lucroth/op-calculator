@@ -1,26 +1,13 @@
 package mainMechanism;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import functionStructure.Operation;
-import functionStructure.Number;
 import functionStructure.OperationType;
+import functionStructure.Operation;
+import functionStructure.Expression;
 /**
  * Created by Maciej on 2016-11-02.
  */
 public class mainMechanism {
-    // FIX THIS FUNCTION
-
-    private static void preformCalculations(ArrayList<Operation> operations, int i) {
-        if (i == 0) {
-            operations.get(i + 1).setLeftNumber(new Number(operations.get(i).getValue()));
-        } else if (i > 0 && i < operations.size() - 1) {
-            operations.get(i - 1).setRightNumber(new Number(operations.get(i).getValue()));
-            operations.get(i + 1).setLeftNumber(new Number(operations.get(i).getValue()));
-        } else if (i == operations.size() - 1) {
-            operations.get(i - 1).setRightNumber(new Number(operations.get(i).getValue()));
-        }
-    }
 
     public static double Calculate(ArrayList<Operation> operations) {
         boolean operationDone = false;
@@ -49,5 +36,16 @@ public class mainMechanism {
         }
 
         return operations.get(0).getValue();
+    }
+
+    private static void preformCalculations(ArrayList<Operation> operations, int i) {
+        if (i == 0) {
+            operations.get(i + 1).setLeftOperator(new Expression(Double.toString(operations.get(i).getValue())));
+        } else if (i > 0 && i < operations.size() - 1) {
+            operations.get(i - 1).setRightOperator(new Expression(Double.toString(operations.get(i).getValue())));
+            operations.get(i + 1).setLeftOperator(new Expression(Double.toString(operations.get(i).getValue())));
+        } else if (i == operations.size() - 1) {
+            operations.get(i - 1).setRightOperator(new Expression(Double.toString(operations.get(i).getValue())));
+        }
     }
 }
