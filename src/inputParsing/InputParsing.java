@@ -10,11 +10,15 @@ import functionStructure.OperationType;
  * Created by Maciej on 2016-11-02.
  */
 public class InputParsing {
-    public static String removeWhitespaces(String input) {
+    private static String removeWhitespaces(String input) {
         return input.replaceAll("\\s+", "");
     }
 
-    public static int findCorrespondingBracket(String input, int index) {
+    private static String lowerCase(String input) { return input.toLowerCase(); }
+
+    public static String prepareString(String input) { return removeWhitespaces(lowerCase(input)); }
+
+    private static int findCorrespondingBracket(String input, int index) {
         int counter = 0;
         for(int i = index + 1; i < input.length(); i++) {
             if(input.charAt(i) == '(')

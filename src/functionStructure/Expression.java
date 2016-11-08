@@ -64,7 +64,11 @@ public class Expression implements IEvaluable {
     }
 
     public double getValue() {
-        if(expressions == null)
+        if(expressions == null && input.equals("pi"))
+            return Math.PI;
+        else if(expressions == null && input.equals("e"))
+            return Math.E;
+        else if(expressions == null)
             return Double.parseDouble(input);
         else if (expressions.size() == 1)
             return expressions.get(0).getValue();
