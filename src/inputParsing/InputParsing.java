@@ -53,7 +53,7 @@ public class InputParsing {
         ArrayList<Operation> operationList = new ArrayList<>();
 
         if(!(expressionList == null)) {
-            for (int i = 0; i < input.length(); i++) {
+            for (int i = 1; i < input.length(); i++) {
                 if (input.charAt(i) == '(')
                     i = findCorrespondingBracket(input, i);
                 else if (isOperator(input.charAt(i))) {
@@ -88,13 +88,15 @@ public class InputParsing {
                 } else {
                     for (int j = i; j < input.length(); j++) {
                         if(j == i + 3 && isFunction(input.substring(i, j))) {
-                            if(input.charAt(j) == '(') {
+                            if (input.charAt(j) == '(') {
                                 endIndex = findCorrespondingBracket(input, j + 1) + 1;
                                 expressionList.add(new Function(input.substring(i, j), input.substring(j + 1, endIndex - 1)));
                                 i = endIndex;
                                 break;
                             }
-                        } else if (InputParsing.isOperator(input.charAt(j))) {
+                        } else if (j == 0 && i == 0)
+                            continue;
+                        else if (InputParsing.isOperator(input.charAt(j))) {
                             expressionList.add(new Expression(input.substring(i, j)));
                             i = j;
                             break;
