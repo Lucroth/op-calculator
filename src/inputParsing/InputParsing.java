@@ -63,7 +63,7 @@ public class InputParsing {
                 if(input.charAt(i) != '(' && input.charAt(i) != '-' && !flag)
                     flag = true;
                 if (input.charAt(i) == '(')
-                    i = findCorrespondingBracket(input, i);
+                    i = findCorrespondingBracket(input, i) - 1;
                 else if (isOperator(input.charAt(i)) && flag) {
                     operationList.add(new Operation(input.charAt(i), expressionList.get(operationList.size()), expressionList.get(operationList.size() + 1)));
                 }

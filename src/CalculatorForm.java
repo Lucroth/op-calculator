@@ -3,6 +3,9 @@ import inputParsing.InputParsing;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import functionStructure.Expression;
 import wolframAlpha.WolframConnection;
 
@@ -22,9 +25,11 @@ public class CalculatorForm extends JFrame {
         calculateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                DecimalFormat df = new DecimalFormat("#.#####");
+                df.setRoundingMode(RoundingMode.FLOOR);
                 try {
                     Expression expr = new Expression(InputParsing.prepareString(textField1.getText()));
-                    label1.setText("Result: " + String.valueOf(expr.getValue()));
+                    label1.setText("Result: " + String.valueOf(df.format(expr.getValue())));
                 } catch (Exception ex) {
                     label1.setText("Result: " + WolframConnection.queryWolfram(textField1.getText()));
                 }
