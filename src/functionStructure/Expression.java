@@ -21,10 +21,12 @@ public class Expression implements IEvaluable {
     }
 
     private String trimInput(String input) {
-        while(input.charAt(0) == '(')
-            input = input.substring(1);
-        while(input.charAt(input.length() - 1) == ')')
-            input = input.substring(input.length() - 1);
+        if(input.length() > 0) {
+            while (input.charAt(0) == '(')
+                input = input.substring(1);
+            while (input.charAt(input.length() - 1) == ')')
+                input = input.substring(input.length() - 1);
+        }
 
         return input;
     }
@@ -84,6 +86,8 @@ public class Expression implements IEvaluable {
             return Math.E;
         else if(expressions == null && input.equals("-e"))
             return -Math.E;
+        else if(expressions == null && input.equals(""))
+            return 0;
         else if(expressions == null)
             return Double.parseDouble(input);
         else if (expressions.size() == 1)
