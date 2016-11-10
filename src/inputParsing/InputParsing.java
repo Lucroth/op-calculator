@@ -33,9 +33,14 @@ public class InputParsing {
     }
 
     private static boolean containsOperators(String input) {
-        for(int i = 1; i < input.length(); i++)
-            if(isOperator(input.charAt(i)))
+        boolean flag = false;
+
+        for(int i = 0; i < input.length(); i++) {
+            if(!(input.charAt(i) == '(') && !(input.charAt(i) == '-') && !flag)
+                flag = true;
+            if (isOperator(input.charAt(i)) && flag)
                 return true;
+        }
         return false;
     }
 
@@ -51,12 +56,15 @@ public class InputParsing {
 
     public static ArrayList<Operation> getOperationListExpr(String input, ArrayList<Expression> expressionList) {
         ArrayList<Operation> operationList = new ArrayList<>();
+        boolean flag = false;
 
         if(!(expressionList == null)) {
-            for (int i = 1; i < input.length(); i++) {
+            for (int i = 0; i < input.length(); i++) {
+                if(input.charAt(i) != '(' && input.charAt(i) != '-' && !flag)
+                    flag = true;
                 if (input.charAt(i) == '(')
                     i = findCorrespondingBracket(input, i);
-                else if (isOperator(input.charAt(i))) {
+                else if (isOperator(input.charAt(i)) && flag) {
                     operationList.add(new Operation(input.charAt(i), expressionList.get(operationList.size()), expressionList.get(operationList.size() + 1)));
                 }
             }
@@ -87,10 +95,10 @@ public class InputParsing {
                     i = endIndex;
                 } else {
                     for (int j = i; j < input.length(); j++) {
-                        if(j == i + 3 && isFunction(input.substring(i, j))) {
-                            if (input.charAt(j) == '(') {
-                                endIndex = findCorrespondingBracket(input, j + 1) + 1;
-                                expressionList.add(new Function(input.substring(i, j), input.substring(j + 1, endIndex - 1)));
+                        if(j + 3 < input.length() && isFunction(input.substring(j, j + 3))) {
+                            if (input.charAt(j + 3) == '(') {
+                                endIndex = findCorrespondingBracket(input, j + 4) + 1;
+                                expressionList.add(new Function(input.substring(i, j + 3), input.substring(j + 4, endIndex - 1)));
                                 i = endIndex;
                                 break;
                             }

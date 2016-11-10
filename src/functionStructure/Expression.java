@@ -12,9 +12,21 @@ public class Expression implements IEvaluable {
     protected ArrayList<Operation> operations;
 
     public Expression(String input) {
-        this.input = input;
         this.expressions = InputParsing.detectExpressions(input);
+        if(expressions == null)
+            this.input = trimInput(input);
+        else
+            this.input = input;
         this.operations = InputParsing.getOperationListExpr(input, expressions);
+    }
+
+    private String trimInput(String input) {
+        while(input.charAt(0) == '(')
+            input = input.substring(1);
+        while(input.charAt(input.length() - 1) == ')')
+            input = input.substring(input.length() - 1);
+
+        return input;
     }
 
     protected double Calculate(ArrayList<Operation> operations) {
@@ -66,8 +78,12 @@ public class Expression implements IEvaluable {
     public double getValue() {
         if(expressions == null && input.equals("pi"))
             return Math.PI;
+        else if(expressions == null && input.equals("-pi"))
+            return -Math.PI;
         else if(expressions == null && input.equals("e"))
             return Math.E;
+        else if(expressions == null && input.equals("-e"))
+            return -Math.E;
         else if(expressions == null)
             return Double.parseDouble(input);
         else if (expressions.size() == 1)
