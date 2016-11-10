@@ -19,7 +19,7 @@ public class InputParsing {
     public static String prepareString(String input) { return removeWhitespaces(lowerCase(input)); }
 
     private static int findCorrespondingBracket(String input, int index) {
-        int counter = 0;
+        int counter = 1;
         for(int i = index + 1; i < input.length(); i++) {
             if(input.charAt(i) == '(')
                 counter++;
