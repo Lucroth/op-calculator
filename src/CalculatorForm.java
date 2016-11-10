@@ -22,11 +22,12 @@ public class CalculatorForm extends JFrame {
         calculateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Expression expr = new Expression(InputParsing.prepareString(textField1.getText()));
-                label1.setText("Result: " + String.valueOf(expr.getValue()));
-
-                //wolfram
-                //label1.setText(WolframConnection.queryWolfram(textField1.getText()));
+                try {
+                    Expression expr = new Expression(InputParsing.prepareString(textField1.getText()));
+                    label1.setText("Result: " + String.valueOf(expr.getValue()));
+                } catch (Exception ex) {
+                    label1.setText("Result: " + WolframConnection.queryWolfram(textField1.getText()));
+                }
             }
         });
         setVisible(true);
