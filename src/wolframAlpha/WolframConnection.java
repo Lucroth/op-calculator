@@ -9,6 +9,7 @@ public final class WolframConnection {
     public static String queryWolfram(String input) {
         WAEngine engine = new WAEngine();
         engine.setAppID("KJ99UR-5RKVVJE2V5");
+        engine.addFormat("image");
         engine.addFormat("plaintext");
         WAQuery query = engine.createQuery();
         query.setInput(input);
