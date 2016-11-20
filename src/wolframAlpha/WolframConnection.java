@@ -26,9 +26,9 @@ public final class WolframConnection {
                     if (!pod.isError()) {
                         for (WASubpod subpod : pod.getSubpods()) {
                             for (Object element : subpod.getContents()) {
-                                if (element instanceof WAPlainText) {
+                                if (element instanceof WAImage) {
                                     if (pod.getTitle().equals("Indefinite integral") || pod.getTitle().equals("Result") || pod.getTitle().equals("Solution")) {
-                                        return ((WAPlainText) element).getText();
+                                        return ((WAImage) element).getURL();
                                     }
                                 }
                             }
