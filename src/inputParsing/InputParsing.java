@@ -1,10 +1,9 @@
 package inputParsing;
 
 import java.util.ArrayList;
-import functionStructure.Operation;
-import functionStructure.Expression;
-import functionStructure.Function;
-import functionStructure.OperationType;
+
+import com.sun.jna.platform.win32.WinDef;
+import functionStructure.*;
 
 /**
  * Created by Maciej on 2016-11-02.
@@ -45,13 +44,23 @@ public class InputParsing {
     }
 
     private static boolean isFunction(String input) {
-        if(input.equals("sin") || input.equals("cos") || input.equals("tan"))
+        if(input.equals("sin") || input.equals("cos") || input.equals("tan") || input.equals("log") || input.equals("pow") || input.equals("exp") || input.equals("sqr"))
             return true;
         return false;
     }
 
+    private static String getFunctionType(String input) {
+        if(input.equals("sin") || input.equals("cos") || input.equals("tan"))
+            return "trigonometric";
+        else if(input.equals("log"))
+            return "logarithmic";
+        else if(input.equals("sqr") || input.equals("exp"))
+            return "otherFunction";
+        else return "";
+    }
+
     private static boolean isOperator(char character) {
-        return character == '+' || character == '-' || character == '*' || character == '/';
+        return character == '+' || character == '-' || character == '*' || character == '/' || character == '^';
     }
 
     public static ArrayList<Operation> getOperationListExpr(String input, ArrayList<Expression> expressionList) {
@@ -96,11 +105,40 @@ public class InputParsing {
                 } else {
                     for (int j = i; j < input.length(); j++) {
                         if(j + 3 < input.length() && isFunction(input.substring(j, j + 3))) {
-                            if (input.charAt(j + 3) == '(') {
-                                endIndex = findCorrespondingBracket(input, j + 4) + 1;
-                                expressionList.add(new Function(input.substring(i, j + 3), input.substring(j + 4, endIndex - 1)));
-                                i = endIndex;
+                            if(getFunctionType(input.substring(j, j + 3)).equals("trigonometric")) {
+                                if(input.charAt(j + 3) == '(') {
+                                    endIndex = findCorrespondingBracket(input, j + 4) + 1;
+                                    expressionList.add(new TrigonometricFunction(input.substring(i, j + 3), input.substring(j + 4, endIndex - 1)));
+                                    i = endIndex;
+                                    break;
+                                }
+                            } else if(getFunctionType(input.substring(j, j + 3)).equals("logarithmic")) {
+                                if(input.charAt(j + 3) == '(') {
+                                    endIndex = findCorrespondingBracket(input, j + 4) + 1;
+                                    expressionList.add(new LogarithmicFunction("", input.substring(j + 4, endIndex - 1)));
+                                    i = endIndex;
+                                    break;
+                                } else if(Character.isDigit(input.charAt(j + 3))) {
+                                    int k = j + 3;
+                                    while(Character.isDigit(input.charAt(k))) {
+                                        k++;
+                                    }
+                                    if(input.charAt(k) == '(') {
+                                        endIndex = findCorrespondingBracket(input, k + 1) + 1;
+                                        i = endIndex;
+                                        expressionList.add(new LogarithmicFunction(input.substring(j + 3, k), input.substring(k + 1, endIndex - 1)));
+                                        break;
+                                    }
+                                }
+
                                 break;
+                            } else if(getFunctionType(input.substring(j, j + 3)).equals("otherFunction")) {
+                                if(input.charAt(j + 3) == '(') {
+                                    endIndex = findCorrespondingBracket(input, j + 4) + 1;
+                                    expressionList.add(new OtherFunction(input.substring(i, j + 3), input.substring(j + 4, endIndex - 1)));
+                                    i = endIndex;
+                                    break;
+                                }
                             }
                         } else if (j == 0 && i == 0)
                             continue;
@@ -127,6 +165,8 @@ public class InputParsing {
             return OperationType.Division;
         else if(input == '+')
             return OperationType.Addition;
+        else if(input == '^')
+            return OperationType.Power;
         else
             return OperationType.Subtraction;
     }

@@ -6,5 +6,8 @@ package functionStructure;
 public enum FunctionType {
     Sin,
     Cos,
-    Tan
+    Tan,
+    Pow,
+    Exp,
+    Sqr
 }

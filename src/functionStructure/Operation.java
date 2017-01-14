@@ -28,6 +28,8 @@ public class Operation<T extends IEvaluable, V extends IEvaluable> implements IE
                 return leftOperator.getValue() + rightOperator.getValue();
             case Subtraction:
                 return leftOperator.getValue() - rightOperator.getValue();
+            case Power:
+                return Math.pow(leftOperator.getValue(), rightOperator.getValue());
             default:
                 return (Double) null;
         }

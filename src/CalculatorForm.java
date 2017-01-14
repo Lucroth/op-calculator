@@ -34,6 +34,7 @@ public class CalculatorForm extends JFrame {
                 try {
                     Expression expr = new Expression(InputParsing.prepareString(textField1.getText()));
                     label1.setText("Result: " + String.valueOf(df.format(expr.getValue())));
+
                 } catch (Exception ex) {
                     try {
                         label1.setText("");

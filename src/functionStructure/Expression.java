@@ -38,7 +38,7 @@ public class Expression implements IEvaluable {
 
             for(int i = 0; i < operations.size(); i++) {
                 operationDone = false;
-                if ((operations.get(i).getOperationType() == OperationType.Multiplication) || (operations.get(i).getOperationType() == OperationType.Division)) {
+                if ((operations.get(i).getOperationType() == OperationType.Multiplication) || (operations.get(i).getOperationType() == OperationType.Division) || (operations.get(i).getOperationType() == OperationType.Power)) {
                     preformCalculations(operations, i);
                     operations.remove(i);
                     operationDone = true;

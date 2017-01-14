@@ -6,6 +6,7 @@ package functionStructure;
 public class Function extends Expression implements IEvaluable {
     private FunctionType functionType;
     private String function;
+    private double limit = 1E-10;
 
     public Function(String function, String input) {
         super(input);
@@ -30,27 +31,43 @@ public class Function extends Expression implements IEvaluable {
     }
 
     private double getFunctionValue(double value) {
+        double result;
+
         if(function.charAt(0) == '-') {
             switch (functionType) {
                 case Sin:
-                    return -Math.sin(value);
+                    result = -Math.sin(value);
+                    if(Math.abs(result) < 1E-10) return 0;
+                    else return result;
                 case Cos:
-                    return -Math.cos(value);
+                    result = -Math.cos(value);
+                    if(Math.abs(result) < 1E-10) return 0;
+                    else return result;
                 case Tan:
-                    return -Math.tan(value);
+                    result = -Math.tan(value);
+                    if(Math.abs(result) < 1E-10) return 0;
+                    else return result;
                 default:
-                    return -value;
+                    if(Math.abs(-value) < 1E-10) return 0;
+                    else return -value;
             }
         } else {
             switch (functionType) {
                 case Sin:
-                    return Math.sin(value);
+                    result = Math.sin(value);
+                    if(Math.abs(result) < 1E-10) return 0;
+                    else return result;
                 case Cos:
-                    return Math.cos(value);
+                    result = Math.cos(value);
+                    if(Math.abs(result) < 1E-10) return 0;
+                    else return result;
                 case Tan:
-                    return Math.tan(value);
+                    result = Math.tan(value);
+                    if(Math.abs(result) < 1E-10) return 0;
+                    else return result;
                 default:
-                    return value;
+                    if(Math.abs(value) < 1E-10) return 0;
+                    else return value;
             }
         }
     }
