@@ -38,11 +38,23 @@ public class Expression implements IEvaluable {
 
             for(int i = 0; i < operations.size(); i++) {
                 operationDone = false;
-                if ((operations.get(i).getOperationType() == OperationType.Multiplication) || (operations.get(i).getOperationType() == OperationType.Division) || (operations.get(i).getOperationType() == OperationType.Power)) {
+                if (operations.get(i).getOperationType() == OperationType.Power) {
                     preformCalculations(operations, i);
                     operations.remove(i);
                     operationDone = true;
                     break;
+                }
+            }
+
+            if(!operationDone) {
+                for (int i = 0; i < operations.size(); i++) {
+                    operationDone = false;
+                    if ((operations.get(i).getOperationType() == OperationType.Multiplication) || (operations.get(i).getOperationType() == OperationType.Division)) {
+                        preformCalculations(operations, i);
+                        operations.remove(i);
+                        operationDone = true;
+                        break;
+                    }
                 }
             }
 
@@ -63,13 +75,15 @@ public class Expression implements IEvaluable {
     private void preformCalculations(ArrayList<Operation> operations, int i) {
         Expression expr = new Expression(Double.toString(operations.get(i).getValue()));
 
-        if (i == 0) {
-            operations.get(i + 1).setLeftOperator(expr);
-        } else if (i > 0 && i < operations.size() - 1) {
-            operations.get(i - 1).setRightOperator(expr);
-            operations.get(i + 1).setLeftOperator(expr);
-        } else if (i == operations.size() - 1) {
-            operations.get(i - 1).setRightOperator(expr);
+        if(operations.size() > 1) {
+            if (i == 0) {
+                operations.get(i + 1).setLeftOperator(expr);
+            } else if (i > 0 && i < operations.size() - 1) {
+                operations.get(i - 1).setRightOperator(expr);
+                operations.get(i + 1).setLeftOperator(expr);
+            } else if (i == operations.size() - 1) {
+                operations.get(i - 1).setRightOperator(expr);
+            }
         }
     }
 

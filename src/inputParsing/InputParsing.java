@@ -1,9 +1,8 @@
 package inputParsing;
 
 import java.util.ArrayList;
-
-import com.sun.jna.platform.win32.WinDef;
 import functionStructure.*;
+import java.util.ArrayList;
 
 /**
  * Created by Maciej on 2016-11-02.
@@ -44,7 +43,7 @@ public class InputParsing {
     }
 
     private static boolean isFunction(String input) {
-        if(input.equals("sin") || input.equals("cos") || input.equals("tan") || input.equals("log") || input.equals("pow") || input.equals("exp") || input.equals("sqr"))
+        if(input.equals("sin") || input.equals("cos") || input.equals("tan") || input.equals("log") || input.equals("pow") || input.equals("exp") || input.equals("sqr") || input.equals("int"))
             return true;
         return false;
     }
@@ -56,6 +55,8 @@ public class InputParsing {
             return "logarithmic";
         else if(input.equals("sqr") || input.equals("exp"))
             return "otherFunction";
+        else if(input.equals("int"))
+            return "integral";
         else return "";
     }
 
@@ -113,25 +114,32 @@ public class InputParsing {
                                     break;
                                 }
                             } else if(getFunctionType(input.substring(j, j + 3)).equals("logarithmic")) {
-                                if(input.charAt(j + 3) == '(') {
+                                if (input.charAt(j + 3) == '(') {
                                     endIndex = findCorrespondingBracket(input, j + 4) + 1;
                                     expressionList.add(new LogarithmicFunction("", input.substring(j + 4, endIndex - 1)));
                                     i = endIndex;
                                     break;
-                                } else if(Character.isDigit(input.charAt(j + 3))) {
+                                } else if (Character.isDigit(input.charAt(j + 3))) {
                                     int k = j + 3;
-                                    while(Character.isDigit(input.charAt(k))) {
+                                    while (Character.isDigit(input.charAt(k))) {
                                         k++;
                                     }
-                                    if(input.charAt(k) == '(') {
+                                    if (input.charAt(k) == '(') {
                                         endIndex = findCorrespondingBracket(input, k + 1) + 1;
                                         i = endIndex;
                                         expressionList.add(new LogarithmicFunction(input.substring(j + 3, k), input.substring(k + 1, endIndex - 1)));
                                         break;
                                     }
                                 }
-
                                 break;
+                            } else if(getFunctionType(input.substring(j, j + 3)).equals("integral")) {
+                                if(input.charAt(j + 3) == '(') {
+                                    int borderIndex = findCorrespondingBracket(input, j + 4) + 1;
+                                    endIndex = findCorrespondingBracket(input, borderIndex + 1) + 1;
+                                    i = endIndex;
+                                    expressionList.add(new Integral(input.substring(j + 4, borderIndex - 1), input.substring(borderIndex + 1, endIndex - 1)));
+                                    break;
+                                }
                             } else if(getFunctionType(input.substring(j, j + 3)).equals("otherFunction")) {
                                 if(input.charAt(j + 3) == '(') {
                                     endIndex = findCorrespondingBracket(input, j + 4) + 1;
@@ -158,6 +166,75 @@ public class InputParsing {
         return expressionList;
     }
 
+    public static boolean isEquation(String input) {
+        if(input.length() == 1) {
+            if (Character.isAlphabetic(input.charAt(0)) && input.charAt(0) != 'e') {
+                return true;
+            }
+        } else if (input.length() > 1) {
+            for(int i = 1; i < input.length() - 1; i++) {
+                if (Character.isAlphabetic(input.charAt(i)) && !Character.isAlphabetic(input.charAt(i - 1)) && !Character.isAlphabetic(input.charAt(i + 1))) {
+                    return true;
+                }
+            }
+            if (Character.isAlphabetic(input.charAt(0)) && input.charAt(0) != 'e' && !Character.isAlphabetic(input.charAt(1))) {
+                return true;
+            }
+            if(Character.isAlphabetic(input.charAt(input.length() - 1)) && !Character.isAlphabetic(input.charAt(input.length() - 2)) && input.charAt(input.length() - 1) != 'e') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String removeIntegrals(String input) {
+        for(int i = 0; i < input.length() - 2; i++) {
+            if(getFunctionType(input.substring(i, i + 3)).equals("integral")) {
+                int borderIndex = findCorrespondingBracket(input, i + 4) + 1;
+                int endIndex = findCorrespondingBracket(input, borderIndex + 1) + 1;
+                input = input.substring(0, i) + input.substring(endIndex);
+            }
+        }
+
+        return input;
+    }
+
+    public static ArrayList<Integer> getVariableIndexes(String input) {
+
+        ArrayList<Integer> array = new ArrayList<>();
+        if(input.length() == 1) {
+            if (Character.isAlphabetic(input.charAt(0)) && input.charAt(0) != 'e') {
+                array.add(0);
+            }
+        } else if (input.length() > 1) {
+            for(int i = 1; i < input.length() - 1; i++) {
+                if (Character.isAlphabetic(input.charAt(i)) && !Character.isAlphabetic(input.charAt(i - 1)) && !Character.isAlphabetic(input.charAt(i + 1))) {
+                    array.add(i);
+                }
+            }
+
+            if (Character.isAlphabetic(input.charAt(0)) && input.charAt(0) != 'e' && !Character.isAlphabetic(input.charAt(1))) {
+                array.add(0);
+            }
+
+            if(Character.isAlphabetic(input.charAt(input.length() - 1)) && !Character.isAlphabetic(input.charAt(input.length() - 2)) && input.charAt(input.length() - 1) != 'e') {
+                array.add(input.length() - 1);
+            }
+        }
+
+        return array;
+    }
+
+    public static Expression substituteVariables(ArrayList<Integer> list, Expression expr, double nmb) {
+        String input = expr.toString();
+
+        for(int number : list) {
+            input = input.substring(0, number) + Double.toString(nmb) + input.substring(number + 1);
+        }
+
+        return new Expression(input);
+    }
+
     public static OperationType setOperationType(char input) {
         if(input == '*')
             return OperationType.Multiplication;
@@ -169,5 +246,16 @@ public class InputParsing {
             return OperationType.Power;
         else
             return OperationType.Subtraction;
+    }
+
+    public static ArrayList<DoublePoint> getChartPoints(Expression expr, int amount, double start, double end) {
+        ArrayList<DoublePoint> dpTable = new ArrayList<>();
+        double delta = (end - start) / amount;
+
+        for(double i = start; i < end; i += delta) {
+            dpTable.add(new DoublePoint(i, new Expression(substituteVariables(getVariableIndexes(expr.toString()), expr, i).toString()).getValue()));
+        }
+
+        return dpTable;
     }
 }

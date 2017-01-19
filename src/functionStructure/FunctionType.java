@@ -7,7 +7,6 @@ public enum FunctionType {
     Sin,
     Cos,
     Tan,
-    Pow,
     Exp,
     Sqr
 }

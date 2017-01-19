@@ -34,7 +34,7 @@
         </constraints>
         <properties>
           <font name="Consolas" size="20"/>
-          <text value="Result"/>
+          <text value="Result:"/>
         </properties>
       </component>
       <component id="97c3c" class="javax.swing.JButton" binding="calculateButton" default-binding="true">

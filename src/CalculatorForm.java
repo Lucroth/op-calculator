@@ -9,7 +9,9 @@ import java.text.DecimalFormat;
 import java.net.*;
 import javax.imageio.*;
 import functionStructure.Expression;
+import jdk.internal.util.xml.impl.Input;
 import wolframAlpha.WolframConnection;
+import inputParsing.DoublePoint;
 
 /**
  * Created by Lucroth on 2016-11-03.
@@ -33,7 +35,16 @@ public class CalculatorForm extends JFrame {
                 df.setRoundingMode(RoundingMode.FLOOR);
                 try {
                     Expression expr = new Expression(InputParsing.prepareString(textField1.getText()));
-                    label1.setText("Result: " + String.valueOf(df.format(expr.getValue())));
+                    if(!InputParsing.isEquation(InputParsing.removeIntegrals(expr.toString()))) {
+                        label1.setText("Result: " + String.valueOf(df.format(expr.getValue())));
+                    } else {
+                        //INSERT GRAPH HERE PLEASE!
+                        //InputParsing.getChartPoints(expr, 1000, -50, 50); To jest metoda która zwróci Ci punktu które trzeba wrzucić na chart
+                        //Tak dla modyfikacji to możesz zmieniac 3 ostatnie parametry pierwszy "1000" to jest liczba punktów jakie ma zwrócić metoda
+                        //-50 to punkt początkowy
+                        //50 to punkt końcowy
+                    }
+
 
                 } catch (Exception ex) {
                     try {
