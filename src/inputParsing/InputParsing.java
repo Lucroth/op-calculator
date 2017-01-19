@@ -227,9 +227,11 @@ public class InputParsing {
 
     public static Expression substituteVariables(ArrayList<Integer> list, Expression expr, double nmb) {
         String input = expr.toString();
+        int numberOfLoop = 0;
 
         for(int number : list) {
-            input = input.substring(0, number) + Double.toString(nmb) + input.substring(number + 1);
+            input = input.substring(0, number + (Double.toString(nmb).length() - 1) * numberOfLoop) + Double.toString(nmb) + input.substring(number + 1 + (Double.toString(nmb).length() - 1) * numberOfLoop);
+            numberOfLoop++;
         }
 
         return new Expression(input);
