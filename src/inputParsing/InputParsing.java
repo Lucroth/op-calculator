@@ -252,7 +252,7 @@ public class InputParsing {
         ArrayList<DoublePoint> dpTable = new ArrayList<>();
         double delta = (end - start) / amount;
 
-        for(double i = start; i < end; i += delta) {
+        for(double i = start; i <= end; i += delta) {
             dpTable.add(new DoublePoint(i, new Expression(substituteVariables(getVariableIndexes(expr.toString()), expr, i).toString()).getValue()));
         }
 

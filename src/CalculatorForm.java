@@ -44,8 +44,6 @@ public class CalculatorForm extends JFrame {
                         //-50 to punkt początkowy
                         //50 to punkt końcowy
                     }
-
-
                 } catch (Exception ex) {
                     try {
                         label1.setText("");
