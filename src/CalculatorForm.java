@@ -10,6 +10,8 @@ import java.net.*;
 import javax.imageio.*;
 import functionStructure.Expression;
 import jdk.internal.util.xml.impl.Input;
+import org.jfree.chart.ChartFactory;
+import org.jfree.ui.RefineryUtilities;
 import wolframAlpha.WolframConnection;
 import inputParsing.DoublePoint;
 
@@ -38,6 +40,10 @@ public class CalculatorForm extends JFrame {
                     if(!InputParsing.isEquation(InputParsing.removeIntegrals(expr.toString()))) {
                         label1.setText("Result: " + String.valueOf(df.format(expr.getValue())));
                     } else {
+                        ChartWindow chart = new ChartWindow("Wykres", expr, -5, 1, 1000);
+                        chart.pack( );
+                        RefineryUtilities.centerFrameOnScreen( chart );
+                        chart.setVisible( true );
                         //INSERT GRAPH HERE PLEASE!
                         //InputParsing.getChartPoints(expr, 1000, -50, 50); To jest metoda która zwróci Ci punktu które trzeba wrzucić na chart
                         //Tak dla modyfikacji to możesz zmieniac 3 ostatnie parametry pierwszy "1000" to jest liczba punktów jakie ma zwrócić metoda
