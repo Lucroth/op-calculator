@@ -40,7 +40,7 @@ public class CalculatorForm extends JFrame {
                     if(!InputParsing.isEquation(InputParsing.removeIntegrals(expr.toString()))) {
                         label1.setText("Result: " + String.valueOf(df.format(expr.getValue())));
                     } else {
-                        ChartWindow chart = new ChartWindow("Wykres", expr, -5, 1, 1000);
+                        ChartWindow chart = new ChartWindow("Wykres", expr, -5, 10, 1000);
                         chart.pack( );
                         RefineryUtilities.centerFrameOnScreen( chart );
                         chart.setVisible( true );
