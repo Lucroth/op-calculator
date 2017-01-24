@@ -44,11 +44,6 @@ public class CalculatorForm extends JFrame {
                         chart.pack( );
                         RefineryUtilities.centerFrameOnScreen( chart );
                         chart.setVisible( true );
-                        //INSERT GRAPH HERE PLEASE!
-                        //InputParsing.getChartPoints(expr, 1000, -50, 50); To jest metoda która zwróci Ci punktu które trzeba wrzucić na chart
-                        //Tak dla modyfikacji to możesz zmieniac 3 ostatnie parametry pierwszy "1000" to jest liczba punktów jakie ma zwrócić metoda
-                        //-50 to punkt początkowy
-                        //50 to punkt końcowy
                     }
                 } catch (Exception ex) {
                     try {

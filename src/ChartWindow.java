@@ -1,4 +1,5 @@
 import inputParsing.DoublePoint;
+import inputParsing.IChartable;
 import inputParsing.InputParsing;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
@@ -10,7 +11,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import functionStructure.Expression;
 import java.util.ArrayList;
 
-public class ChartWindow extends ApplicationFrame
+public class ChartWindow extends ApplicationFrame implements IChartable
 {
     private double minChartPoint;
     private double maxChartPoint;
@@ -35,7 +36,7 @@ public class ChartWindow extends ApplicationFrame
         setContentPane( chartPanel );
     }
 
-    private DefaultCategoryDataset createDataset( )
+    public DefaultCategoryDataset createDataset()
     {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
         ArrayList<DoublePoint> pointsArr = InputParsing.getChartPoints(expr, amount, minChartPoint, maxChartPoint);
@@ -44,12 +45,7 @@ public class ChartWindow extends ApplicationFrame
         for (int i = 0; i < amount; i++) {
             dataset.addValue(pointsArr.get(i).getY(), expr.toString(), Double.toString(pointsArr.get(i).getX()));
         }
-//        dataset.addValue( 15 , "schools" , "1971" );
-//        dataset.addValue( 30 , "schools" , "1980" );
-//        dataset.addValue( 60 , "schools" ,  "1990" );
-//        dataset.addValue( 120 , "schools" , "2000" );
-//        dataset.addValue( 240 , "schools" , "2010" );
-//        dataset.addValue( 300 , "schools" , "2014" );
+
         return dataset;
     }
 }
