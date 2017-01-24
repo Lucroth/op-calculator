@@ -19,6 +19,8 @@ interface IChartable {
 
 ##Diagramy UML
 
-Use Case: http://i.imgur.com/jxPLD3q.png
-Activity Diagram: http://i.imgur.com/dW50Wkx.png
-Component Diagram: http://i.imgur.com/rmi2L8B.png
+Use Case: http://i.imgur.com/jxPLD3q.png  
+Activity Diagram: http://i.imgur.com/dW50Wkx.png  
+Component Diagram: http://i.imgur.com/rmi2L8B.png  
+
+
