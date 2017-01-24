@@ -3,6 +3,7 @@ package inputParsing;
 import java.util.ArrayList;
 import functionStructure.*;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 
 /**
  * Created by Maciej on 2016-11-02.
@@ -139,6 +140,8 @@ public class InputParsing {
                                     i = endIndex;
                                     expressionList.add(new Integral(input.substring(j + 4, borderIndex - 1), input.substring(borderIndex + 1, endIndex - 1)));
                                     break;
+                                } else {
+                                    throw new EmptyStackException();
                                 }
                             } else if(getFunctionType(input.substring(j, j + 3)).equals("otherFunction")) {
                                 if(input.charAt(j + 3) == '(') {
