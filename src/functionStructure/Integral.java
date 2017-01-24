@@ -18,7 +18,7 @@ public class Integral extends Expression implements IEvaluable {
         super(input);
         this.lowBorder = Double.parseDouble(borders.split("\\,")[0]);
         this.highBorder = Double.parseDouble(borders.split("\\,")[1]);
-        this.amount = 1000;
+        this.amount = 100;
         this.delta = (this.highBorder - this.lowBorder) / this.amount;
 
     }
