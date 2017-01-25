@@ -9,6 +9,8 @@ import org.jfree.ui.RefineryUtilities;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import functionStructure.Expression;
+
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class ChartWindow extends ApplicationFrame implements IChartable
@@ -30,10 +32,10 @@ public class ChartWindow extends ApplicationFrame implements IChartable
                 createDataset(),
                 PlotOrientation.VERTICAL,
                 true,true,false);
-
         ChartPanel chartPanel = new ChartPanel( lineChart );
         chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
         setContentPane( chartPanel );
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public DefaultCategoryDataset createDataset()
